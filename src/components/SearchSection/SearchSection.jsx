@@ -9,6 +9,8 @@ const SearchSection = (props) => {
     const [countries, setCountries] = useState([]);
     const [search, setSearch] = useState("");
 
+    const [tooManyMatches, setTooManyMatches] = useState(true);
+
     const [filteredCountries, setFilteredCountries] = useState([]);
 
     useEffect(() => {
@@ -17,12 +19,19 @@ const SearchSection = (props) => {
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
+        if (filteredCountries.length > 10) {
+            setTooManyMatches(true);
+        } else {
+            setTooManyMatches(false);
+        }
     };
 
     useEffect(() => {
-        setFilteredCountries(countries.filter((country) => country.name));
-
-        console.log(filteredCountries);
+        setFilteredCountries(
+            countries.filter((country) =>
+                country.name.common.toLowerCase().includes(search.toLowerCase())
+            )
+        );
     }, [search, countries]);
 
     return (
@@ -34,13 +43,11 @@ const SearchSection = (props) => {
                     onChange={handleSearch}
                 />
                 <AfterSearchContainer>
-                    {filteredCountries.map((e) => {
-                        {
-                            return (
-                                <CountryCard name={e.name.common}></CountryCard>
-                            );
-                        }
-                    })}
+                    {tooManyMatches ? (
+                        <p> too many matches</p>
+                    ) : (
+                        <CountryCard country={filteredCountries} />
+                    )}
                 </AfterSearchContainer>
             </SearchSectionContainer>
         </>
