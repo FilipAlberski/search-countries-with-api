@@ -21,35 +21,13 @@ function App() {
             });
     }, []);
 
-    const [country, setCountry] = useState("");
-
-    const [searchedCountries, setSearchedCountries] = useState(["test"]);
-
-    const [searchCountry, setSearchCountry] = useState("");
-
-    useEffect(() => {
-        const filteredCountry = countries.filter((country) => {
-            return country.name.common
-                .toLowerCase()
-                .includes(searchCountry.toLowerCase());
-        });
-        setSearchedCountries(filteredCountry);
-    }, [searchCountry, countries]);
-
-    const searchCountryHandler = (e) => {
-        setSearchCountry(e.target.value);
-    };
-
     return (
         <AppContainer>
             <GlobalStyle />
             <Header />
 
-            <SearchSection
-                searchedCountries={searchedCountries}
-                searchCountryHandler={searchCountryHandler}
-            />
-            <ChoosedCountry country={country} />
+            <SearchSection countries={countries} />
+            <ChoosedCountry />
         </AppContainer>
     );
 }

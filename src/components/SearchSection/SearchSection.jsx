@@ -1,32 +1,45 @@
 import React, { useEffect, useState } from "react";
+import CountryCard from "../CountryCard/CountryCard";
 import {
     AfterSearchContainer,
     SearchSectionContainer,
 } from "./SearchSection.style";
 
 const SearchSection = (props) => {
-    console.log(props.searchedCountries);
-    const [searchedCountries, setSearchedCountries] = useState([]);
-    useEffect(() => {
-        setSearchedCountries(props.searchedCountries);
-    }, [props.searchedCountries]);
+    const [countries, setCountries] = useState([]);
+    const [search, setSearch] = useState("");
 
-    console.log(searchedCountries);
+    const [filteredCountries, setFilteredCountries] = useState([]);
+
+    useEffect(() => {
+        setCountries(props.countries);
+    }, [props.countries]);
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
+
+    useEffect(() => {
+        setFilteredCountries(countries.filter((country) => country.name));
+
+        console.log(filteredCountries);
+    }, [search, countries]);
+
     return (
         <>
             <SearchSectionContainer>
                 <input
                     type="text"
                     placeholder="Name of a country"
-                    onChange={(e) => {
-                        props.searchCountryHandler(e);
-
-                        console.log(props.searchedCountries);
-                    }}
+                    onChange={handleSearch}
                 />
                 <AfterSearchContainer>
-                    {searchedCountries.map((country) => {
-                        console.log(country.name);
+                    {filteredCountries.map((e) => {
+                        {
+                            return (
+                                <CountryCard name={e.name.common}></CountryCard>
+                            );
+                        }
                     })}
                 </AfterSearchContainer>
             </SearchSectionContainer>
