@@ -6,6 +6,12 @@ import {
 } from "./SearchSection.style";
 
 const SearchSection = (props) => {
+    const [countryIsChosen, setCountryIsChosen] = useState(false);
+
+    const handleCountryIsChosen = (x) => {
+        setCountryIsChosen(x);
+    };
+
     const [countries, setCountries] = useState([]);
     const [search, setSearch] = useState("");
 
@@ -38,15 +44,20 @@ const SearchSection = (props) => {
         <>
             <SearchSectionContainer>
                 <input
+                    onClick={() => setCountryIsChosen(true)}
                     type="text"
                     placeholder="Name of a country"
                     onChange={handleSearch}
                 />
-                <AfterSearchContainer>
+                <AfterSearchContainer show={countryIsChosen}>
                     {tooManyMatches ? (
                         <p> too many matches</p>
                     ) : (
-                        <CountryCard country={filteredCountries} />
+                        <CountryCard
+                            handleCountryClick={props.handleCountryClick}
+                            country={filteredCountries}
+                            handleCountryIsChosen={handleCountryIsChosen}
+                        />
                     )}
                 </AfterSearchContainer>
             </SearchSectionContainer>

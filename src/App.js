@@ -10,6 +10,15 @@ import { GlobalStyle } from "./globalStyles";
 function App() {
     const [countries, setCountries] = useState([]);
 
+    const [displayChoosedCountry, setDisplayChoosedCountry] = useState(false);
+    const [SelectedCountry, setSelectedCountry] = useState([]);
+
+    const handleCountryClick = (country) => {
+        setSelectedCountry(country);
+        if (country) {
+            setDisplayChoosedCountry(true);
+        }
+    };
     useEffect(() => {
         axios
             .get("https://restcountries.com/v3.1/all")
@@ -26,8 +35,16 @@ function App() {
             <GlobalStyle />
             <Header />
 
-            <SearchSection countries={countries} />
-            <ChoosedCountry />
+            <SearchSection
+                countries={countries}
+                handleCountryClick={handleCountryClick}
+            />
+            {displayChoosedCountry && (
+                <ChoosedCountry
+                    show={displayChoosedCountry}
+                    country={SelectedCountry}
+                />
+            )}
         </AppContainer>
     );
 }

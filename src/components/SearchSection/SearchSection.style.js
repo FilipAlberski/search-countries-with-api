@@ -27,7 +27,7 @@ export const SearchSectionContainer = styled.div`
 `;
 
 export const AfterSearchContainer = styled.div`
-    display: flex;
+    display: ${(props) => (props.show ? "flex" : "none")};
     flex-direction: column;
     align-items: center;
     width: 100%;
