@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const ChoosedCountryContainer = styled.div`
     display: ${(props) => (props.show ? "flex" : "none")};
+    z-index: 1;
+
     flex-direction: column;
-    gap: 1rem;
-    justify-content: center;
     align-items: center;
     width: 100%;
     padding: 1rem;
